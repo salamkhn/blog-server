@@ -1,7 +1,8 @@
 
+import mongoose from "mongoose"
 
-import { success } from "zod"
 import { Blog } from "../model/blogModel.js"
+
 // create Blog
 export const createBlog=async(req,res,next)=>{
   try{
@@ -56,24 +57,26 @@ export const allBlogs=async(req,res,next)=>{
 }
 
 //update blog
-export const updateBlogs=async(req,res,next)=>{
+export const updateBlog=async(req,res,next)=>{
   const id=req.params.id
 
-  console.log("id of the blogs :",id)
+
    
 try{
    const {title,category,image,content}=req.body
 
-   const blogDetails={
-    title,
-    category,
-    image,
-    content
-   }
+   const blogFields={}
+   if(title !== undefined) blogFields.title =title;
+   if(category !== undefined) blogFields.category=category;
+   if(image !== undefined) blogFields.image =image;
+   if(content !== undefined) blogFields.content=content
+
+  console.log("title of blogs :",title)
+ 
   
   const blog=await Blog.findByIdAndUpdate(id,
-    blogDetails
-  ,{new:true})
+  blogFields,
+  {new:true})
  
   //validation
   if(!blog){
@@ -84,11 +87,46 @@ try{
   }
 
   //success response
- return res.status(201).json({
+ return res.status(200).json({
   message:"blog updated successfully",
   success:true,
+  date:blog
  })
 }catch(err){
   next(err)
 }
+}
+
+//delete blog
+export const deleteBlog=async(req,res,next)=>{
+  const id=req.params.id
+
+  if(!mongoose.Types.ObjectId.isValid(id)){
+
+    return res.status(400).json({
+      message:"Invalid blog id formate",
+      success:false
+    })
+  }
+
+  try{
+
+    const blog=await Blog.findByIdAndDelete(id)
+
+    //validation
+    if(!blog){
+      return res.status(404).json({
+        message:"blog not found",
+        success:false
+      })
+    }
+
+    //success response
+    return res.status(200).json({
+      message:"blog deleted successfully",
+      success:true
+    })    
+  }catch(err){
+   next(err)
+  }
 }
