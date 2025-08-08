@@ -6,7 +6,7 @@ import { validator } from "../middlewares/validator.js";
 
 // zod validation
 export const  blogSchema=z.object({
-title:z.string().min(12,"title must be between 12 to 120 character long").max(120).default("untitled blog").optional(),
+title:z.string().min(12,"title must be between 12 to 120 character long").max(120).optional(),
 category:z.enum(["education", "tech", "branding", "health", "kirana", "marketing", "sales"]).optional(),
 content:z.string().min(200,"blog content must be 200 characters long").optional(),
 image:z.string().url().refine(v=>/\.(png|jpg|jpeg|webp)$/i.test(v),{
