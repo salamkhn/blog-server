@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import { minLength } from "zod"
 
 
 //user Schema
@@ -26,7 +27,9 @@ const userSchema=mongoose.Schema({
   phoneNumber:{
     type:Number,
     required:[true,'phoneNumber required and must be in digit'],
-    match:/^\+?[0-9]+$/
+    match:/^\+?[0-9]+$/,
+    minlength:8,
+    maxlength:16
     
   },
   role:{
