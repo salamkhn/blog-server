@@ -3,15 +3,47 @@ import mongoose from "mongoose"
 
 import { Blog } from "../model/blogModel.js"
 
-// create Blog
+import { v2 as cloudinary } from 'cloudinary';
+
+
+
+
+//Step:1 setting Cloudinary Setup
+  cloudinary.config({ 
+        cloud_name: 'djboaeuys', 
+        api_key: '297579552564668', 
+        api_secret: 'PIx5qMF_9Q_jvrAQPbTsgTju3Ok'
+    });
+    
+// Step:2 setting multer => i do it as an middleware
+
+
+   
+// Step:3 Create blog Controller
 export const createBlog=async(req,res,next)=>{
   try{
-    const {title,category,image,content}=req.body
-  
+    const {title,category,content}=req.body
+    //validation for not present
+     if(!req.file){
+      return res.status(400).json({
+        message:"image is required"
+      })
+    }
+
+    // upload direct from buffer to Cloudinary!
+  const uploadImage=await new Promise((resolve,reject)=>{
+    cloudinary.uploader.upload_stream(
+      {folder:"blog-Images"},
+      (error,result)=>{
+        if(error) reject(error)
+        else resolve(result)
+      }
+    ).end(req.file.buffer)
+  })
     const blogData=new Blog({
      title,
      category,
-     image,
+     image:uploadImage.secure_url,
      content
     })
 
@@ -28,7 +60,9 @@ export const createBlog=async(req,res,next)=>{
   }catch(err){
     next(err)
   }
+
 }
+
 
 // fetch Allblogs
 export const allBlogs=async(req,res,next)=>{

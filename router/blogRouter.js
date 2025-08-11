@@ -3,6 +3,7 @@ import {z} from "zod"
 import { allBlogs, createBlog, deleteBlog, updateBlog, } from "../controller/blogController.js";
 export const blogRouter=Router()
 import { validator } from "../middlewares/validator.js";
+import { upload } from "../middlewares/upload.js";
 
 // zod validation
 export const  blogSchema=z.object({
@@ -19,7 +20,9 @@ image:z.string().url().refine(v=>/\.(png|jpg|jpeg|webp)$/i.test(v),{
 // @methods=>post
 // @purpose =>createBlog
 // @endpoing=>api/blog/create
-blogRouter.post("/create",validator(blogSchema),createBlog)
+blogRouter.post("/create",
+  upload.single("image"),
+  validator(blogSchema),createBlog)
 
 // @methods=>get
 // @purpose =>get all blogs
@@ -29,7 +32,9 @@ blogRouter.get("/allblogs",allBlogs)
 // @methods=>patch
 // @purpose =>update blog
 // @endpoing=>api/blog/updateblog
-blogRouter.patch("/updateblog/:id",validator(blogSchema),updateBlog)
+blogRouter.patch("/updateblog/:id",
+  upload.single("image"),
+  validator(blogSchema),updateBlog)
 
 //@methods =>delete
 //@purpose =>delete-Blog

@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const blogSchema = new mongoose.Schema({
   title: { 
     type: String,
-    required: [true, "Title is required"],
+    required: [true, "title is required"],
     minlength: [12, "Title must be at least 12 characters long"],
     maxlength: [120, "Title cannot exceed 120 characters"],
     trim: true
@@ -13,7 +13,7 @@ const blogSchema = new mongoose.Schema({
     required: [true, "Category is required"],
     enum: {
       values: ["education", "tech", "branding", "health", "kirana", "marketing", "sales"],
-      message: `${VALUE} is not a valid category`
+      message: "${VALUE} is not a valid category"
     },
     lowercase: true,
     trim: true
