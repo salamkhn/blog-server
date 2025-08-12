@@ -25,7 +25,7 @@ const userSchema=mongoose.Schema({
     select:false
   },
   phoneNumber:{
-    type:Number,
+    type:String,
     required:[true,'phoneNumber required and must be in digit'],
     match:/^\+?[0-9]+$/,
     minlength:8,
@@ -54,5 +54,5 @@ const userSchema=mongoose.Schema({
 },{timestamps:true})
 
 //userModle
-const User=mongoose.model("User",userSchema)
+export const User=mongoose.model("User",userSchema)
 

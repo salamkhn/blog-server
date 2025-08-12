@@ -10,13 +10,13 @@ const app=express();
 //middle wares
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
-app.use(errorHandler)
+
 
 const coreOptions={
   origin:true,
   credentials:true,
-  method:['POST','GET','PATCH','DELETE'],
-  allowedHeader:['Content-type','Authorization']
+  methods:['POST','GET','PATCH','DELETE'],
+  allowedHeaders:['Content-type','Authorization']
 }
 app.use(cors(coreOptions))
 
@@ -31,6 +31,7 @@ app.get("/",(req,res)=>{
  res.send("Server is Running..")
 })
 
+app.use(errorHandler)
 //listing
 const Port=3333
 app.listen(Port,()=>{

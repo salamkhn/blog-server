@@ -31,7 +31,7 @@ export const createBlog=async(req,res,next)=>{
     }
 
     // upload direct from buffer to Cloudinary!
-  const uploadImage=await new Promise((resolve,reject)=>{
+    const uploadImage=await new Promise((resolve,reject)=>{
     cloudinary.uploader.upload_stream(
       {folder:"blog-Images"},
       (error,result)=>{
@@ -39,7 +39,9 @@ export const createBlog=async(req,res,next)=>{
         else resolve(result)
       }
     ).end(req.file.buffer)
-  })
+   })
+
+
     const blogData=new Blog({
      title,
      category,
@@ -47,14 +49,16 @@ export const createBlog=async(req,res,next)=>{
      content
     })
 
-    await blogData.save()
+      const savedtodbs=await blogData.save()
     
     //success response
-    return res.status(201).json({
+     if(savedtodbs){
+      return res.status(201).json({
       message:"blog saved successfully to dbs",
       success:true,
       blogData
     })
+     }
 
     
   }catch(err){

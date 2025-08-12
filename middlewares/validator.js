@@ -1,5 +1,13 @@
 
 export const validator=(blogSchema)=>(req,res,next)=>{
+   console.log('welcome to the validator after login')
+  console.log("req.body in validation :",req.body)
+
+  if(req.file){
+    req.body.userprofile=req.file.originalname
+  }
+    
+  
  const result=blogSchema.safeParse(req.method === "GET" ? req.query : req.body);
  console.log("result in validator :",result)
  if(!result.success) {
@@ -10,5 +18,6 @@ export const validator=(blogSchema)=>(req,res,next)=>{
   })
  }
   req.validData=result.data
+  console.log("validator function finished")
   next()
 }

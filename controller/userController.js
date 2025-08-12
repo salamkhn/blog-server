@@ -1,9 +1,72 @@
+import { v2 as cloudinary } from 'cloudinary';
+import { User } from "../model/userModel.js";
+import bcryptjs from "bcryptjs"
 
 
+//step:1 cloudionary setup
+
+  cloudinary.config({ 
+        cloud_name: 'djboaeuys', 
+        api_key: '297579552564668', 
+        api_secret: 'PIx5qMF_9Q_jvrAQPbTsgTju3Ok'
+    });
 
 //userregister function
-export const userRegister=(req,res,next)=>{
-try{
+export const userRegister=async(req,res,next)=>{
+  
+  const {userName,email,password,phoneNumber,role,userprofile}=req.validData;
+try{ 
+
+    // validation
+    const exist=await User.findOne({email});
+
+    if(exist){
+      return res.status(400).json({
+        message:"user already exist",
+        success:false
+      })
+    } 
+
+   if(!req.file){
+    return res.status(400).json({
+      message:"user image required",
+      success:false
+    })
+   }
+
+      //logic for hashing password
+  const hashedPassword=await bcryptjs.hash(password,10);
+
+   //mading new promise
+   const userProfile=await new Promise((resolve,reject)=>{
+   cloudinary.uploader.upload_stream(
+    {folder:"user-Images"},
+    (err,result)=>{
+      if(err)reject(err)
+      else resolve(result)
+    }
+   ).end(req.file.buffer)
+   })
+
+   //user profile details
+   const userDetail=new User({
+    userName,
+    email,
+    password:hashedPassword,
+    phoneNumber,
+    role,
+    userprofile:userProfile.secure_url
+   })
+
+   // saving to dbs
+ await userDetail.save()
+
+ //success response 
+ res.status(200).json({
+  message:"user saved successfully",
+  success:true,
+  userDetail
+ })
 
 }catch(err){
   next(err)
@@ -11,8 +74,36 @@ try{
 }
 
 //usersignup function
-export const userSignup=(req,res,next)=>{
+export const userLogin=async(req,res,next)=>{
+  console.log("req.body in login fun :",req.body)
+  const {email,password}=req.body
+
   try{
+    const user=await User.findOne({email})
+    console.log("existing user :",user)
+    if(!user){
+      return res.status(404).json({
+        message:"invalid login details",
+        success:false
+      })
+    }  
+
+  //validation checking
+  const decodedPassword=bcryptjs.compare(password,user.password)  
+   
+  if(!decodedPassword){
+   return res.status(404).json({
+    message:"invalid login details",
+    success:false
+   })
+  }
+
+  return res.status(200).json({
+    message:"user login successfully",
+    success:true
+  })
+
+
 
   }catch(err){
     next(err)
