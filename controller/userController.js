@@ -75,25 +75,27 @@ try{
 
 //usersignup function
 export const userLogin=async(req,res,next)=>{
-  console.log("req.body in login fun :",req.body)
-  const {email,password}=req.body
-
   try{
+    const {email,password}=req.body
     const user=await User.findOne({email})
-    console.log("existing user :",user)
     if(!user){
-      return res.status(404).json({
-        message:"invalid login details",
+      return res.status(401).json({
+        message:"invalid login details user not found",
         success:false
       })
     }  
-
-  //validation checking
-  const decodedPassword=bcryptjs.compare(password,user.password)  
+    
+    
+    //validation checking
+    const isPasswordValid=await bcryptjs.compare(password,user.password)  
+    console.log("isPasswordValid :",isPasswordValid)
+    
+    console.log("existing user:=>",user)
+    
    
-  if(!decodedPassword){
-   return res.status(404).json({
-    message:"invalid login details",
+  if(!isPasswordValid){
+   return res.status(401).json({
+    message:"invalid login details in hashing password",
     success:false
    })
   }

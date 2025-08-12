@@ -22,7 +22,7 @@ const userSchema=mongoose.Schema({
     type:String,
     minlength:[6,"password should be 6 char long"],
     required:[true,'password required'],
-    select:false
+
   },
   phoneNumber:{
     type:String,

@@ -27,7 +27,12 @@ export const createuserSchema=z.object({
 })
 
 // // for update user_Schema
-export const loginSchema=createuserSchema.optional()
+export const loginSchema=z.object({
+    email:z.email("basic email formate email invalid").lowercase().refine(v=> /^[\w]+(?:[-_.][\w]+)*@[a-z0-9]+(?:[-_.][\w]+)*\.[A-Za-z]{2,}$/i.test(v),{
+    message:'invalid email'
+  }),
+   password:z.string("password must be a string").min(6,"password should atleast 6 character long"),
+})
 
 export const userRouter=Router()
 
