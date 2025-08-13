@@ -4,6 +4,7 @@ import { allBlogs, createBlog, deleteBlog, updateBlog, } from "../controller/blo
 export const blogRouter=Router()
 import { validator } from "../middlewares/validator.js";
 import { upload } from "../middlewares/upload.js";
+import { isAuthentication } from "../middlewares/authentication/auth.js";
 
 // zod validation
 export const  blogSchema=z.object({
@@ -16,29 +17,35 @@ image:z.string().url().refine(v=>/\.(png|jpg|jpeg|webp)$/i.test(v),{
   message:"Only .png, .jpg, .jpeg, .webp Allowed"
 }).optional(), 
 })
-
-
+            
 // @methods=>post
 // @purpose =>createBlog
 // @endpoing=>api/blog/create
 blogRouter.post("/create",
+  isAuthentication,
   upload.single("image"),
-  validator(blogSchema),createBlog)
+  validator(blogSchema),
+  createBlog)
 
 // @methods=>get
 // @purpose =>get all blogs
 // @endpoing=>api/blog/allblogs
-blogRouter.get("/allblogs",allBlogs)
+blogRouter.get(
+  "/allblogs",
+  allBlogs)
 
 // @methods=>patch
 // @purpose =>update blog
 // @endpoing=>api/blog/updateblog
-blogRouter.patch("/updateblog/:id",
+blogRouter.patch(
+  "/updateblog/:id",
+  isAuthentication,
   upload.single("image"),
   validator(blogSchema),updateBlog)
 
 //@methods =>delete
 //@purpose =>delete-Blog
 //@endpoing =>api/blog/updateblog
-blogRouter.delete("/deleteblog/:id",deleteBlog)
-
+blogRouter.delete("/deleteblog/:id",
+  isAuthentication
+  ,deleteBlog)

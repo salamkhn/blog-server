@@ -48,7 +48,8 @@ const userSchema=mongoose.Schema({
       return /\.(png|jpg|jpeg|webp)$/i.test(v)
      },
      message:props=>`${props.value} is not a valid image extension' (png,jpg,jpeg,webp only allowed)`
-    }
+    },
+
   }
 
 },{timestamps:true})

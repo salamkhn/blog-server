@@ -4,13 +4,14 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 import dbCon from "./dbCon/dbsCon.js";
 import { blogRouter } from "./router/blogRouter.js";
 import  cors  from "cors";
+import cookieParser from "cookie-parser";
 dbCon()
 const app=express();
 
 //middle wares
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
-
+app.use(cookieParser())
 
 const coreOptions={
   origin:true,

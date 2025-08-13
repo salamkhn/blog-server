@@ -5,9 +5,6 @@ import { Blog } from "../model/blogModel.js"
 
 import { v2 as cloudinary } from 'cloudinary';
 
-
-
-
 //Step:1 setting Cloudinary Setup
   cloudinary.config({ 
         cloud_name: 'djboaeuys', 
@@ -41,18 +38,24 @@ export const createBlog=async(req,res,next)=>{
     ).end(req.file.buffer)
    })
 
-
-    const blogData=new Blog({
+   
+   const blogData=new Blog({
      title,
      category,
      image:uploadImage.secure_url,
-     content
+     content,
+     Author:req.userId
     })
+    console.log("data of req.userId :",req.userId)
+    
+      const savedBlog=await blogData.save()
+    
+      console.log('savedBlog :',savedBlog)
 
-      const savedtodbs=await blogData.save()
+   
     
     //success response
-     if(savedtodbs){
+     if(savedBlog){
       return res.status(201).json({
       message:"blog saved successfully to dbs",
       success:true,

@@ -33,9 +33,13 @@ const blogSchema = new mongoose.Schema({
     required: [true, "Blog content is required"],
     minlength: [200, "Blog content must be at least 200 characters long"]
   },
+  Author:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"User",
+    required:true
+  }
 
-}, {
-  timestamps: true  
-});
+}, { timestamps: true }
+);
 
 export const Blog = mongoose.model("Blog", blogSchema);  

@@ -1,6 +1,8 @@
 import { v2 as cloudinary } from 'cloudinary';
 import { User } from "../model/userModel.js";
 import bcryptjs from "bcryptjs"
+import  jwt  from 'jsonwebtoken';
+import { generateTokenandsaveinCookies } from '../middlewares/token/generatetoken.js';
 
 
 //step:1 cloudionary setup
@@ -80,7 +82,7 @@ export const userLogin=async(req,res,next)=>{
     const user=await User.findOne({email})
     if(!user){
       return res.status(401).json({
-        message:"invalid login details user not found",
+        message:"invalid login details!",
         success:false
       })
     }  
@@ -88,25 +90,22 @@ export const userLogin=async(req,res,next)=>{
     
     //validation checking
     const isPasswordValid=await bcryptjs.compare(password,user.password)  
-    console.log("isPasswordValid :",isPasswordValid)
-    
-    console.log("existing user:=>",user)
-    
    
   if(!isPasswordValid){
    return res.status(401).json({
-    message:"invalid login details in hashing password",
+    message:"invalid login details!",
     success:false
    })
   }
 
+  // token generating
+  const token=await generateTokenandsaveinCookies(user._id,res)
+
   return res.status(200).json({
     message:"user login successfully",
-    success:true
+    success:true,
+    token
   })
-
-
-
   }catch(err){
     next(err)
   }
