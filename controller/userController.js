@@ -3,6 +3,8 @@ import { User } from "../model/userModel.js";
 import bcryptjs from "bcryptjs"
 import  jwt  from 'jsonwebtoken';
 import { generateTokenandsaveinCookies } from '../middlewares/token/generatetoken.js';
+import { success } from 'zod';
+
 
 
 //step:1 cloudionary setup
@@ -24,7 +26,7 @@ try{
 
     if(exist){
       return res.status(400).json({
-        message:"user already exist",
+        message:"already exist choose another email",
         success:false
       })
     } 
@@ -65,7 +67,7 @@ try{
 
  //success response 
  res.status(200).json({
-  message:"user saved successfully",
+  message:"register successfully as a ",
   success:true,
   userDetail
  })
@@ -110,4 +112,45 @@ export const userLogin=async(req,res,next)=>{
     next(err)
   }
 
+}
+
+//getAllusers function
+export const allusers=async(req,res,next)=>{
+    try{
+   const users=await User.find({});
+
+  if(!users || users.length ===0 ){
+    return res.status(404).json({
+      message:"users not found",
+      success:false
+    })
+  }
+  //success response
+  return res.status(200).json({
+    message:"all users fetched successfully",
+    success:true,
+    users
+  })
+
+    }catch(err){
+      next(err)
+    }
+}
+
+// logout function
+export const userLogout=async(req,res,next)=>{
+  try{
+      res.clearCookie('jwt',{
+        httpOnly:true,
+        secure:false,
+      })
+
+      return res.status(200).json({
+        message:'user logout successfully',
+        success:true
+      })
+
+  }catch(err){
+    console.log(err)
+  }
 }
