@@ -3,7 +3,7 @@ export const generateTokenandsaveinCookies=async(id,res)=>{
    
    
          const token=jwt.sign({id},"TsTs))$$",{
-          expiresIn:"1h"
+          expiresIn:"5m"
          });
 
  console.log("token fron generate token :",token)
@@ -15,7 +15,7 @@ export const generateTokenandsaveinCookies=async(id,res)=>{
     secure:false,
     sameSite:"none",
     path:"/",
-    maxAge:60 * 60 * 1000
+    maxAge:5 * 60 * 1000
    })
 
    return token;

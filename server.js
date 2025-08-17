@@ -17,7 +17,9 @@ const coreOptions={
   origin:true,
   credentials:true,
   methods:['POST','GET','PATCH','DELETE'],
-  allowedHeaders:['Content-type','Authorization']
+  allowedHeaders:['Content-type','Authorization'],
+  secure:false,
+  sameSite:"none"
 }
 app.use(cors(coreOptions))
 
