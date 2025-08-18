@@ -12,11 +12,11 @@ import { v2 as cloudinary } from 'cloudinary';
         api_secret: 'PIx5qMF_9Q_jvrAQPbTsgTju3Ok'
     });
     
-// Step:2 setting multer => i do it as an middleware
+
 
 
    
-// Step:3 Create blog Controller
+
 export const createBlog=async(req,res,next)=>{
   try{
     const {title,category,content}=req.body
@@ -68,6 +68,26 @@ export const createBlog=async(req,res,next)=>{
     next(err)
   }
 
+}
+
+//get userspecificBlogs
+export const userSpecificBlogs=async(req,res,next)=>{
+  try{
+    const userID=req.params.userId;
+
+    // find blog with the help of user id
+    const userSpecificBlogs = await Blog.find({ Author:userID }); // Standard
+   
+    console.log("userSpecificBlogs :",userSpecificBlogs)
+    
+    return res.status(200).json({
+      message:"these blogs found :",
+      userSpecificBlogs,
+      success:true
+    })
+  }catch(err){
+     next(err)
+  }
 }
 
 

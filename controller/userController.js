@@ -104,9 +104,10 @@ export const userLogin=async(req,res,next)=>{
   const token=await generateTokenandsaveinCookies(user._id,res)
 
   return res.status(200).json({
-    message:"user login successfully",
+    message:"user logedin successfully",
     success:true,
-    token
+    token,
+    userID:user._id
   })
   }catch(err){
     next(err)

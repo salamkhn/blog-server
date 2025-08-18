@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {z} from "zod"
-import { allBlogs, createBlog, deleteBlog, updateBlog, } from "../controller/blogController.js";
+import { allBlogs, createBlog, deleteBlog, updateBlog, userSpecificBlogs, } from "../controller/blogController.js";
 export const blogRouter=Router()
 import { validator } from "../middlewares/validator.js";
 import { upload } from "../middlewares/upload.js";
@@ -26,6 +26,13 @@ blogRouter.post("/create",
   upload.single("image"),
   validator(blogSchema),
   createBlog)
+
+  // @methods=>get
+// @purpose =>getspecificuserBlogs
+// @endpoing=>api/blog/userspecifiBlogs
+blogRouter.get("/userspecificblogs/:userId",userSpecificBlogs)
+
+
 
 // @methods=>get
 // @purpose =>get all blogs
