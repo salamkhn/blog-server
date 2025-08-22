@@ -8,9 +8,9 @@ import { isAuthentication } from "../middlewares/authentication/auth.js";
 
 // zod validation
 export const  blogSchema=z.object({
-title:z.string().min(12,"title must be between 12 to 120 character long").max(120).optional(),
+title:z.string().min(6,"title must be between 6 to 120 character long").max(120,"title cannot be exceed 120 character long").optional(),
 category:z.enum(["education", "tech", "branding", "health", "kirana", "marketing", "sales"],{
-  message:"only education, tech, branding, health, kirana, marketing, sales Categories allowed! "
+  message:"only education, tech, branding, health, kirana, marketing, sales Categories allowed! (Choose one from them) "
 }).optional(),
 content:z.string().min(200,"blog content must be 200 characters long").optional(),
 image:z.string().url().refine(v=>/\.(png|jpg|jpeg|webp)$/i.test(v),{

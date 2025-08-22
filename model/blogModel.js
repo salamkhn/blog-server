@@ -25,7 +25,7 @@ const blogSchema = new mongoose.Schema({
       validator: function(v) {
         return /\.(jpg|jpeg|png|webp)$/i.test(v);
       },
-      message: props => `${props.value} is not a valid image URL`
+      message: props => `${props.value} blog image needed`
     }
   },
   content: {  

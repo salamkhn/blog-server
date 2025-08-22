@@ -4,6 +4,7 @@ export const isAuthentication=(req,res,next)=>{
 
   try{
      const token=req.cookies?.jwt;
+     console.log("token form  is authenticated :",token)
 
   
   //validation
