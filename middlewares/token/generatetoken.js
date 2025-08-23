@@ -6,7 +6,6 @@ export const generateTokenandsaveinCookies=async(user,res)=>{
           expiresIn:process.env.JWT_EXPIRE
          });
 
- console.log("token from generate token :",token)
 
  //setting token in cookie
  

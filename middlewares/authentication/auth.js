@@ -4,7 +4,7 @@ export const isAuthentication=(req,res,next)=>{
 
   try{
      const token=req.cookies?.jwt;
-     console.log("token form  is authenticated :",token)
+   
 
   
   //validation
@@ -23,12 +23,8 @@ export const isAuthentication=(req,res,next)=>{
       message:"Invalid crendentials && unauthorized"
     })
   }
-  
-   console.log("verfyed token :",verifyuser)
     
    req.userId=verifyuser.id
-  console.log("req.userId :",req.userId)
-   console.log("now out from the authenticated")
   next()
 
   }catch(err){

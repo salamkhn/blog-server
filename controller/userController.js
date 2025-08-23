@@ -5,10 +5,7 @@ import  jwt  from 'jsonwebtoken';
 import { generateTokenandsaveinCookies } from '../middlewares/token/generatetoken.js';
 import cloudinary from "../config/Cloudionary.js"
 
-//step:1 cloudionary setup
 
-
-    
 
 //userregister function
 export const userRegister=async(req,res,next)=>{

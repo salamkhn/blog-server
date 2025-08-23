@@ -17,6 +17,6 @@ export const validator=(blogSchema)=>(req,res,next)=>{
   })
  }
   req.validData=result.data
-  console.log("validator function finished")
+
   next()
 }

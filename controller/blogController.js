@@ -8,20 +8,9 @@ import cloudinary from "../config/Cloudionary.js"
 //Step:1 setting Cloudinary Setup
 
 
-
-
- 
-    
-
-
-
-   
-
 export const createBlog=async(req,res,next)=>{
-  console.log("cloudinary.config",cloudinary.config())
-    //  console.log("CLOUDINARY-apikey :",process.env.CLOUDINARY_API_KEY)
-    //  console.log("CLOUDINARY_CLOUD_NAME :",process.env.CLOUDINARY_CLOUD_NAME)
-    //  console.log("CLOUDINAR_secrete-key :",process.env.CLOUDINARY_SECRET_KEY)
+
+
   try{
     const {title,category,content}=req.body
     //validation for not present
@@ -33,7 +22,7 @@ export const createBlog=async(req,res,next)=>{
 
     // upload direct from buffer to Cloudinary!
     const uploadImage=await new Promise((resolve,reject)=>{
-      console.log("cloudinary config :",cloudinary.config())
+   
       cloudinary.uploader.upload_stream(
         {folder:"blog-Images"},
         (error,result)=>{
@@ -52,13 +41,9 @@ export const createBlog=async(req,res,next)=>{
      content,
      Author:req.userId
     })
-    console.log("data of req.userId :",req.userId)
+ 
     
-      const savedBlog=await blogData.save()
-    
-      console.log('savedBlog :',savedBlog)
-
-   
+      const savedBlog=await blogData.save()   
     
     //success response
      if(savedBlog){
@@ -72,7 +57,7 @@ export const createBlog=async(req,res,next)=>{
     
   }catch(err){
     next(err)
-     console.log("error from error handler:=>",err)
+   
   }
 
 }
@@ -85,8 +70,7 @@ export const userSpecificBlogs=async(req,res,next)=>{
     // find blog with the help of user id
     const userSpecificBlogs = await Blog.find({ Author:userID }); // Standard
    
-    console.log("userSpecificBlogs :",userSpecificBlogs)
-    
+
     return res.status(200).json({
       message:"these blogs found :",
       userSpecificBlogs,
@@ -111,8 +95,8 @@ export const allBlogs=async(req,res,next)=>{
        success:false
      })
    }
+
   //success response
-   console.log("allblogs :",allblogs)
 
   return res.status(200).json({
     message:"All Blogs",
@@ -139,7 +123,7 @@ try{
    if(image !== undefined) blogFields.image =image;
    if(content !== undefined) blogFields.content=content
 
-  console.log("title of blogs :",title)
+
  
   
   const blog=await Blog.findByIdAndUpdate(id,
