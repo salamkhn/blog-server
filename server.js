@@ -15,12 +15,14 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 const coreOptions={
-  origin:true,  // now for producation lavel
+  origin:[
+      "https://blog-client-rjpc.vercel.app",
+      "http://localhost:5173"  // development for the producation lavel
+  ],
   credentials:true,
   methods:['POST','GET','PATCH','DELETE'],
   allowedHeaders:['Content-type','Authorization'],
-  secure:true,
-  sameSite:"none"
+
 }
 app.use(cookieParser())
 app.use(cors(coreOptions))
