@@ -16,7 +16,7 @@ app.use(express.urlencoded({extended:true}))
 
 const coreOptions={
   origin:[
-      "https://blog-client-rjpc.vercel.app",
+      "https://blog-frontendsite.vercel.app/",
       "http://localhost:5173" 
   ],
   credentials:true,
