@@ -9,7 +9,7 @@ import { isAuthentication } from "../middlewares/authentication/auth.js";
 // zod validation
 export const  blogSchema=z.object({
 title:z.string().min(6,"title must be between 6 to 120 character long").max(120,"title cannot be exceed 120 character long").optional(),
-category:z.enum(["education", "tech", "branding", "health", "kirana", "marketing", "sales"],{
+category:z.enum(["education", "tech", "branding", "health", "kirana", "marketing", "sales","technology","travel","food","business","personal","entertainment","finance","sports","career & job blog"],{
   message:"only education, tech, branding, health, kirana, marketing, sales Categories allowed! (Choose one from them) "
 }).optional(),
 content:z.string().min(200,"blog content must be 200 characters long").optional(),
@@ -31,8 +31,6 @@ blogRouter.post("/create",
 // @purpose =>getspecificuserBlogs
 // @endpoing=>api/blog/userspecifiBlogs
 blogRouter.get("/userspecificblogs/:userId",userSpecificBlogs)
-
-
 
 // @methods=>get
 // @purpose =>get all blogs

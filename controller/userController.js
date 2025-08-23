@@ -1,19 +1,14 @@
-import { v2 as cloudinary } from 'cloudinary';
+
 import { User } from "../model/userModel.js";
 import bcryptjs from "bcryptjs"
 import  jwt  from 'jsonwebtoken';
 import { generateTokenandsaveinCookies } from '../middlewares/token/generatetoken.js';
-import { success } from 'zod';
-
-
+import cloudinary from "../config/Cloudionary.js"
 
 //step:1 cloudionary setup
 
-  cloudinary.config({ 
-        cloud_name: 'djboaeuys', 
-        api_key: '297579552564668', 
-        api_secret: 'PIx5qMF_9Q_jvrAQPbTsgTju3Ok'
-    });
+
+    
 
 //userregister function
 export const userRegister=async(req,res,next)=>{
@@ -74,6 +69,7 @@ try{
 
 }catch(err){
   next(err)
+   console.log("error from error handler:=>",err)
 }
 }
 

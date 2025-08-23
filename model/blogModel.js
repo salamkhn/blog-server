@@ -12,7 +12,7 @@ const blogSchema = new mongoose.Schema({
     type: String,
     required: [true, "Category is required"],
     enum: {
-      values: ["education", "tech", "branding", "health", "kirana", "marketing", "sales"],
+      values: ["education", "tech", "branding", "health", "kirana", "marketing", "sales","technology","travel","food","business","personal","entertainment","finance","sports","career & job blog"],
       message: "${VALUE} is not a valid category"
     },
     lowercase: true,

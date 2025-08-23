@@ -16,7 +16,7 @@ export const isAuthentication=(req,res,next)=>{
   }
    
   //token verifying
-  const verifyuser=jwt.verify(token,"TsTs))$$")
+  const verifyuser=jwt.verify(token,process.env.JWT_SECRET)
   
   if(!verifyuser){
     return res.status(401).json({
@@ -33,7 +33,7 @@ export const isAuthentication=(req,res,next)=>{
 
   }catch(err){
     return res.status(500).json({
-      message:"invalid or expire token",
+      message:"again login to perform activities",
       success:false
     })
 

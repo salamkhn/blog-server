@@ -3,14 +3,14 @@ import mongoose from "mongoose"
 
 import { Blog } from "../model/blogModel.js"
 
-import { v2 as cloudinary } from 'cloudinary';
+import cloudinary from "../config/Cloudionary.js"
 
 //Step:1 setting Cloudinary Setup
-  cloudinary.config({ 
-        cloud_name: 'djboaeuys', 
-        api_key: '297579552564668', 
-        api_secret: 'PIx5qMF_9Q_jvrAQPbTsgTju3Ok'
-    });
+
+
+
+
+ 
     
 
 
@@ -18,6 +18,10 @@ import { v2 as cloudinary } from 'cloudinary';
    
 
 export const createBlog=async(req,res,next)=>{
+  console.log("cloudinary.config",cloudinary.config())
+    //  console.log("CLOUDINARY-apikey :",process.env.CLOUDINARY_API_KEY)
+    //  console.log("CLOUDINARY_CLOUD_NAME :",process.env.CLOUDINARY_CLOUD_NAME)
+    //  console.log("CLOUDINAR_secrete-key :",process.env.CLOUDINARY_SECRET_KEY)
   try{
     const {title,category,content}=req.body
     //validation for not present
@@ -29,14 +33,16 @@ export const createBlog=async(req,res,next)=>{
 
     // upload direct from buffer to Cloudinary!
     const uploadImage=await new Promise((resolve,reject)=>{
-    cloudinary.uploader.upload_stream(
-      {folder:"blog-Images"},
-      (error,result)=>{
-        if(error) reject(error)
-        else resolve(result)
-      }
-    ).end(req.file.buffer)
-   })
+      console.log("cloudinary config :",cloudinary.config())
+      cloudinary.uploader.upload_stream(
+        {folder:"blog-Images"},
+        (error,result)=>{
+          if(error) reject(error)
+            else resolve(result)
+        }
+      ).end(req.file.buffer)
+    })
+
 
    
    const blogData=new Blog({
@@ -66,6 +72,7 @@ export const createBlog=async(req,res,next)=>{
     
   }catch(err){
     next(err)
+     console.log("error from error handler:=>",err)
   }
 
 }

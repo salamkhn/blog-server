@@ -1,3 +1,5 @@
+import { config } from "dotenv";
+config()
 import express from "express";
 import { userRouter } from "./router/userRoute.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
@@ -13,12 +15,12 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 const coreOptions={
-  origin:"http://localhost:5173",
+  origin:true,  // now for producation lavel
   credentials:true,
   methods:['POST','GET','PATCH','DELETE'],
   allowedHeaders:['Content-type','Authorization'],
-  secure:false,
-  sameSite:"lax"
+  secure:true,
+  sameSite:"none"
 }
 app.use(cookieParser())
 app.use(cors(coreOptions))
@@ -36,7 +38,7 @@ app.get("/",(req,res)=>{
 
 app.use(errorHandler)
 //listing
-const Port=3333
+const Port=process.env.PORT || 3333
 app.listen(Port,()=>{
 console.log(`server is listening at port ${Port}`)
 })

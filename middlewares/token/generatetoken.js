@@ -2,8 +2,8 @@ import jwt from "jsonwebtoken"
 export const generateTokenandsaveinCookies=async(user,res)=>{
    
    
-         const token= jwt.sign({id:user._id,role:user.role},"TsTs))$$",{
-          expiresIn:"1h"
+         const token= jwt.sign({id:user._id,role:user.role},process.env.JWT_SECRET,{
+          expiresIn:process.env.JWT_EXPIRE
          });
 
  console.log("token from generate token :",token)
