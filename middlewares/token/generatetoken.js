@@ -10,7 +10,7 @@ export const generateTokenandsaveinCookies=async(user,res)=>{
  //setting token in cookie
 
     await res.cookie("jwt",token,{
-    httpOnly:false,
+    httpOnly:true,
     secure:true,
     sameSite:"none",
     path:"/",

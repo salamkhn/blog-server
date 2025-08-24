@@ -15,9 +15,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
     console.log("process.env.frontenduri :>",process.env.FRONTEND_URI)
 const coreOptions={
-  origin:[process.env.FRONTEND_URI,
-    "http://localhost:5173/"
-  ],
+  origin:process.env.FRONTEND_URI,
   credentials:true,
   methods:['POST','GET','PATCH','DELETE'],
   allowedHeaders:['Content-type','Authorization'],
