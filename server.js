@@ -23,8 +23,8 @@ const coreOptions={
   methods:['POST','GET','PATCH','DELETE'],
   allowedHeaders:['Content-type','Authorization'],
 }
-app.use(cookieParser())
 app.use(cors(coreOptions))
+app.use(cookieParser())
 
 // user router
 app.use("/api/user",userRouter)
